@@ -1,0 +1,193 @@
+/* Import Ant Design styles */
+@import 'antd/dist/reset.css';
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Augmentation de la taille de police globale */
+body {
+  font-size: 15px !important; /* Augmenté de 14px (par défaut) à 15px */
+  line-height: 1.6;
+}
+
+.app {
+  height: 100%;
+  background-color: #f0f2f5;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.mb-4 { margin-bottom: 32px; }
+
+/* Loading container */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Error container */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Personnalisation des notifications */
+.ant-notification {
+  top: 24px !important;
+}
+
+.ant-notification-notice {
+  padding: 20px 24px;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 
+              0 3px 6px -4px rgba(0, 0, 0, 0.12), 
+              0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ant-notification-notice-success {
+  border-left: 4px solid #52c41a;
+}
+
+.ant-notification-notice-error {
+  border-left: 4px solid #ff4d4f;
+}
+
+.ant-notification-notice-message {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.ant-notification-notice-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ant-notification-notice-icon {
+  font-size: 24px;
+  line-height: 24px;
+  margin-right: 16px;
+}
+
+/* Animation d'entrée */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.ant-notification-notice {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Menu de navigation - Espacement vertical */
+.ant-menu-item,
+.ant-menu-submenu-title {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+/* Premier élément du menu sans marge en haut */
+.ant-menu-item:first-child,
+.ant-menu-submenu:first-child > .ant-menu-submenu-title {
+  margin-top: 0 !important;
+}
+
+/* Dernier élément du menu sans marge en bas */
+.ant-menu-item:last-child,
+.ant-menu-submenu:last-child > .ant-menu-submenu-title {
+  margin-bottom: 0 !important;
+}
+
+/* Sous-menus */
+.ant-menu-sub .ant-menu-item {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+/* Menu vertical dans la sidebar */
+.ant-menu-vertical .ant-menu-item,
+.ant-menu-vertical .ant-menu-submenu-title {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+/* Menu inline */
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Dropdown menu items */
+.ant-dropdown-menu-item {
+  padding: 8px 16px !important;
+  min-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ant-dropdown-menu-item + .ant-dropdown-menu-item {
+  margin-top: 4px !important;
+}

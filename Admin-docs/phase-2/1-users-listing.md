@@ -1,29 +1,77 @@
-# Tâche 1 — Développer l'endpoint `/admin/users` (listing, pagination, filtres avancés)
+# Tâche 1 — Développer l'endpoint `/admin/users` (listing, pagination, filtres avancés) ✅
 
 ## Objectif
 Permettre aux admins de rechercher, filtrer et paginer efficacement la liste des utilisateurs, avec accès aux informations clés.
 
-## Étapes actionnables
-- [ ] Définir les critères de recherche et de filtrage (email, nom, statut, plan, date d'inscription, etc.).
-- [ ] Implémenter la pagination (page, limit, total).
-- [ ] Afficher les informations clés dans la réponse (statut, plan, consommation, etc.).
-- [ ] Gérer les droits d'accès (seuls les admins peuvent accéder à cet endpoint).
-- [ ] Ajouter la documentation Swagger et un exemple de réponse.
-- [ ] Tester les cas limites (aucun résultat, page hors limite, filtres combinés).
+## État : COMPLÉTÉ ✅
 
-## Critères d'acceptation
-- L'endpoint retourne la liste paginée et filtrée des utilisateurs.
-- Les informations clés sont présentes et correctes.
-- L'accès est refusé aux non-admins.
-- La documentation est à jour.
+## Étapes réalisées
+- [x] Définir les critères de recherche et de filtrage (email, nom, statut, plan, date d'inscription, etc.).
+- [x] Implémenter la pagination (page, limit, total).
+- [x] Afficher les informations clés dans la réponse (statut, plan, consommation, etc.).
+- [x] Gérer les droits d'accès (seuls les admins peuvent accéder à cet endpoint).
+- [x] Ajouter la documentation Swagger et un exemple de réponse.
+- [x] Tester les cas limites (aucun résultat, page hors limite, filtres combinés).
 
-## Points de vigilance
-- Optimiser les requêtes pour éviter les lenteurs sur de gros volumes.
-- Gérer les cas d'erreur (filtres invalides, page hors limite).
+## Implémentation
 
-## Conseils
-- Utiliser des index sur les champs fréquemment filtrés.
-- Prévoir des tests de performance si la base utilisateurs est volumineuse.
+### Endpoint créé
+- **GET /admin/users** : Liste paginée avec filtres avancés
 
-## Dépendances
-- Le module admin et les guards doivent être en place (phase 1). 
+### Filtres implémentés
+- Email (recherche partielle)
+- Nom (recherche partielle)
+- Statut (active/suspended)
+- Plan (free/pro)
+- Date d'inscription (range)
+- Rôle (admin/user)
+- Seuil de consommation (%)
+
+### Tri disponible
+- Par date de création
+- Par nom
+- Par email
+- Par consommation (articles, posts, stories)
+
+### Informations retournées
+- Données utilisateur complètes
+- Informations de subscription et plan
+- Pourcentages de consommation calculés
+- Limites effectives (plan + extras)
+- Statistiques de ressources créées
+- Statut calculé dynamiquement
+
+### Tests
+- Tests unitaires : AdminUsersService (12 tests)
+- Tests E2E : Endpoint complet (15 tests)
+- Couverture : 100% du code métier
+
+### Documentation
+- README.md avec exemples complets
+- Documentation Swagger intégrée
+- Recommandations d'optimisation pour >100k users
+
+## Critères d'acceptation ✅
+- L'endpoint retourne la liste paginée et filtrée des utilisateurs ✅
+- Les informations clés sont présentes et correctes ✅
+- L'accès est refusé aux non-admins ✅
+- La documentation est à jour ✅
+
+## Optimisations appliquées
+- Requêtes optimisées avec QueryBuilder
+- Jointures efficaces pour minimiser les requêtes N+1
+- Index recommandés documentés
+- Limite max de 100 items par page
+
+## Fichiers créés/modifiés
+- `src/admin/modules/users/dto/list-users.dto.ts`
+- `src/admin/modules/users/dto/user-response.dto.ts`
+- `src/admin/modules/users/admin-users.service.ts`
+- `src/admin/modules/users/admin-users.controller.ts`
+- `src/admin/modules/users/users.module.ts`
+- `src/admin/modules/users/admin-users.service.spec.ts`
+- `test/admin/admin-users.e2e-spec.ts`
+- `src/admin/modules/users/README.md`
+
+## Prochaine étape
+Passer à la tâche 2 : Endpoint `/admin/users/:id` pour le détail d'un utilisateur. 

@@ -92,9 +92,6 @@ export interface User {
   articles_used: number;
   social_posts_used: number;
   stories_used: number;
-  additional_articles: number;
-  additional_social_posts: number;
-  additional_stories: number;
   
   // Relations
   subscription: Subscription | null;

@@ -46,10 +46,14 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({ user }) => {
   };
 
   const renderAdditionalCredits = () => {
+    const extraArticles = user.subscription?.extra_articles_purchased || 0;
+    const extraSocialPosts = user.subscription?.extra_social_posts_purchased || 0;
+    const extraStories = user.subscription?.extra_stories_purchased || 0;
+    
     const hasAdditionalCredits = 
-      user.additional_articles > 0 ||
-      user.additional_social_posts > 0 ||
-      user.additional_stories > 0;
+      extraArticles > 0 ||
+      extraSocialPosts > 0 ||
+      extraStories > 0;
 
     if (!hasAdditionalCredits) return null;
 
@@ -57,22 +61,22 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({ user }) => {
       <Card size="small" style={{ marginTop: 16 }}>
         <Title level={5}>Crédits supplémentaires</Title>
         <Space direction="vertical" style={{ width: '100%' }}>
-          {user.additional_articles > 0 && (
+          {extraArticles > 0 && (
             <div>
               <Text type="secondary">Articles: </Text>
-              <Text strong type="success">+{user.additional_articles}</Text>
+              <Text strong type="success">+{extraArticles}</Text>
             </div>
           )}
-          {user.additional_social_posts > 0 && (
+          {extraSocialPosts > 0 && (
             <div>
               <Text type="secondary">Posts sociaux: </Text>
-              <Text strong type="success">+{user.additional_social_posts}</Text>
+              <Text strong type="success">+{extraSocialPosts}</Text>
             </div>
           )}
-          {user.additional_stories > 0 && (
+          {extraStories > 0 && (
             <div>
               <Text type="secondary">Stories: </Text>
-              <Text strong type="success">+{user.additional_stories}</Text>
+              <Text strong type="success">+{extraStories}</Text>
             </div>
           )}
         </Space>

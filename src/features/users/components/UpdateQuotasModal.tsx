@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, InputNumber, Input, Space, Typography, Card, Statistic } from 'antd';
+import { Modal, Form, InputNumber, Input, Space, Typography, Card, Statistic, Alert } from 'antd';
 import {
   FileTextOutlined,
   ShareAltOutlined,
@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import type { User, UpdateUserQuotasData } from '../types/users.types';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { TextArea } = Input;
 
 interface UpdateQuotasModalProps {
@@ -16,6 +16,13 @@ interface UpdateQuotasModalProps {
   user: User;
   onSubmit: (data: UpdateUserQuotasData) => void;
   loading?: boolean;
+}
+
+interface FormValues {
+  extraArticles?: number;
+  extraSocialPosts?: number;
+  extraStories?: number;
+  reason: string;
 }
 
 export const UpdateQuotasModal: React.FC<UpdateQuotasModalProps> = ({
@@ -28,27 +35,23 @@ export const UpdateQuotasModal: React.FC<UpdateQuotasModalProps> = ({
   const [form] = Form.useForm();
   const [totalCost, setTotalCost] = useState(0);
 
-  const handleValuesChange = (_: unknown, allValues: {
-    additional_articles?: number;
-    additional_social_posts?: number;
-    additional_stories?: number;
-  }) => {
+  const handleValuesChange = (_: unknown, allValues: FormValues) => {
     // Calcul du coût total (exemple de tarification)
-    const articlesCost = (allValues.additional_articles || 0) * 5;
-    const postsCost = (allValues.additional_social_posts || 0) * 2;
-    const storiesCost = (allValues.additional_stories || 0) * 3;
+    const articlesCost = (allValues.extraArticles || 0) * 5;
+    const postsCost = (allValues.extraSocialPosts || 0) * 2;
+    const storiesCost = (allValues.extraStories || 0) * 3;
     setTotalCost(articlesCost + postsCost + storiesCost);
   };
 
-  const handleSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      onSubmit(values);
-      form.resetFields();
-      setTotalCost(0);
-    } catch {
-      // Form validation failed
-    }
+  const handleSubmit = (values: FormValues) => {
+    onSubmit({
+      extraArticles: values.extraArticles || 0,
+      extraSocialPosts: values.extraSocialPosts || 0,
+      extraStories: values.extraStories || 0,
+      reason: values.reason,
+    });
+    form.resetFields();
+    setTotalCost(0);
   };
 
   const handleCancel = () => {
@@ -59,100 +62,109 @@ export const UpdateQuotasModal: React.FC<UpdateQuotasModalProps> = ({
 
   return (
     <Modal
-      title="Ajouter des crédits"
+      title="Ajouter des crédits supplémentaires"
       open={open}
-      onOk={handleSubmit}
       onCancel={handleCancel}
-      confirmLoading={loading}
+      onOk={() => form.submit()}
       okText="Confirmer"
       cancelText="Annuler"
+      confirmLoading={loading}
       width={600}
     >
       <Form
         form={form}
         layout="vertical"
+        onFinish={handleSubmit}
+        onValuesChange={handleValuesChange}
         initialValues={{
-          additional_articles: 0,
-          additional_social_posts: 0,
-          additional_stories: 0,
+          extraArticles: 0,
+          extraSocialPosts: 0,
+          extraStories: 0,
           reason: '',
         }}
-        onValuesChange={handleValuesChange}
       >
-        {/* Consommation actuelle */}
-        <Card style={{ marginBottom: 24 }}>
-          <Text strong>Consommation actuelle</Text>
-          <Space style={{ width: '100%', marginTop: 16 }} direction="vertical">
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Text>Articles</Text>
-              <Text>{user.articles_used} / {user.effective_limits.articles}</Text>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Text>Posts sociaux</Text>
-              <Text>{user.social_posts_used} / {user.effective_limits.social_posts}</Text>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Text>Stories</Text>
-              <Text>{user.stories_used} / {user.effective_limits.stories}</Text>
-            </div>
-          </Space>
-        </Card>
+        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+          <Card style={{ marginBottom: 16 }}>
+            <Text strong>Consommation actuelle</Text>
+            <Space style={{ width: '100%', marginTop: 8 }} direction="vertical">
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Text>Articles</Text>
+                <Text>{user.articles_used} / {user.effective_limits.articles}</Text>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Text>Posts sociaux</Text>
+                <Text>{user.social_posts_used} / {user.effective_limits.social_posts}</Text>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Text>Stories</Text>
+                <Text>{user.stories_used} / {user.effective_limits.stories}</Text>
+              </div>
+            </Space>
+          </Card>
 
-        {/* Crédits à ajouter */}
-        <Space direction="vertical" style={{ width: '100%' }} size="large">
-          <Form.Item
-            name="additional_articles"
-            label={
-              <Space>
-                <FileTextOutlined />
-                <span>Articles supplémentaires</span>
-              </Space>
-            }
-          >
-            <InputNumber
-              min={0}
-              max={100}
-              style={{ width: '100%' }}
-              placeholder="0"
-              addonAfter="articles"
-            />
-          </Form.Item>
+          <Alert
+            message="Information"
+            description="Ces crédits supplémentaires s'ajoutent aux quotas mensuels de l'utilisateur et sont permanents."
+            type="info"
+            showIcon
+          />
 
-          <Form.Item
-            name="additional_social_posts"
-            label={
-              <Space>
-                <ShareAltOutlined />
-                <span>Posts sociaux supplémentaires</span>
-              </Space>
-            }
-          >
-            <InputNumber
-              min={0}
-              max={100}
-              style={{ width: '100%' }}
-              placeholder="0"
-              addonAfter="posts"
-            />
-          </Form.Item>
+          <div>
+            <Title level={5}>
+              <FileTextOutlined /> Articles supplémentaires
+            </Title>
+            <Form.Item
+              name="extraArticles"
+              rules={[
+                { type: 'number', min: 0, message: 'Le nombre doit être positif' },
+              ]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="0"
+                style={{ width: '100%' }}
+                addonAfter="articles"
+              />
+            </Form.Item>
+          </div>
 
-          <Form.Item
-            name="additional_stories"
-            label={
-              <Space>
-                <PictureOutlined />
-                <span>Stories supplémentaires</span>
-              </Space>
-            }
-          >
-            <InputNumber
-              min={0}
-              max={100}
-              style={{ width: '100%' }}
-              placeholder="0"
-              addonAfter="stories"
-            />
-          </Form.Item>
+          <div>
+            <Title level={5}>
+              <ShareAltOutlined /> Posts sociaux supplémentaires
+            </Title>
+            <Form.Item
+              name="extraSocialPosts"
+              rules={[
+                { type: 'number', min: 0, message: 'Le nombre doit être positif' },
+              ]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="0"
+                style={{ width: '100%' }}
+                addonAfter="posts"
+              />
+            </Form.Item>
+          </div>
+
+          <div>
+            <Title level={5}>
+              <PictureOutlined /> Stories supplémentaires
+            </Title>
+            <Form.Item
+              name="extraStories"
+              rules={[
+                { type: 'number', min: 0, message: 'Le nombre doit être positif' },
+              ]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="0"
+                style={{ width: '100%' }}
+                addonAfter="stories"
+              />
+            </Form.Item>
+          </div>
 
           <Form.Item
             name="reason"

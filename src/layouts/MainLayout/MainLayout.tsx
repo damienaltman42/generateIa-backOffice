@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   DashboardOutlined,
   UserOutlined,
+  UsergroupAddOutlined,
   ShoppingOutlined,
   ScheduleOutlined,
   FileTextOutlined,
@@ -59,6 +60,11 @@ export const MainLayout: React.FC = () => {
       key: '/users',
       icon: <UserOutlined />,
       label: 'Utilisateurs',
+    },
+    {
+      key: '/whitelist',
+      icon: <UsergroupAddOutlined />,
+      label: 'Whitelist',
     },
     {
       key: '/plans-subscriptions',

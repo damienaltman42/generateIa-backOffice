@@ -12,6 +12,8 @@ import { AuthProvider, LoginPage, ForgotPasswordPage, PrivateRoute } from './fea
 import { MainLayout } from './layouts/MainLayout/MainLayout'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import { UsersListPage, UserDetailPage } from './features/users'
+import { PlansListPage, PlanFormPage } from './features/plans'
+import { WhitelistManagementPage } from './features/whitelist'
 import { useTheme } from './hooks/useTheme'
 
 // Set dayjs locale
@@ -109,6 +111,10 @@ function AppContent() {
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="users" element={<UsersListPage />} />
             <Route path="users/:userId" element={<UserDetailPage />} />
+            <Route path="plans" element={<PlansListPage />} />
+            <Route path="plans/new" element={<PlanFormPage />} />
+            <Route path="plans/:id/edit" element={<PlanFormPage />} />
+            <Route path="whitelist" element={<WhitelistManagementPage />} />
             {/* Les autres routes seront ajoutées ici */}
           </Route>
           

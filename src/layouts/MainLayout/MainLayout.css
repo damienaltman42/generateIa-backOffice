@@ -1,0 +1,206 @@
+/* Layout principal */
+.main-layout {
+  min-height: 100vh;
+}
+
+/* Logo */
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Sidebar */
+.sidebar-desktop {
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.main-header {
+  background: #fff !important;
+  padding: 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Trigger button */
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 0 12px;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+/* Search */
+.header-search {
+  width: 300px;
+}
+
+/* User info */
+.user-info {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.user-info:hover {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+/* Content */
+.main-content {
+  background-color: #f0f2f5;
+  min-height: calc(100vh - 64px);
+}
+
+.content-wrapper {
+  padding: 24px;
+}
+
+/* Header buttons */
+.header-icon-btn {
+  font-size: 18px;
+}
+
+.mobile-menu-trigger {
+  font-size: 20px;
+}
+
+/* Theme switcher */
+.theme-switcher {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Mobile drawer */
+.mobile-drawer .ant-drawer-body {
+  padding: 0;
+  background-color: #001529;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #141414;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.dark-mode .main-header {
+  background: #1f1f1f !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .header-content {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.dark-mode .trigger:hover {
+  color: #40a9ff;
+}
+
+body.dark-mode .user-info:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .main-content {
+  background-color: #000;
+}
+
+body.dark-mode .content-wrapper {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.dark-mode .header-search {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .header-search input {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.dark-mode .header-search .ant-input-prefix {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 16px;
+  }
+  
+  .content-wrapper {
+    padding: 16px;
+  }
+  
+  .header-search {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 12px;
+  }
+}
+
+/* Animations */
+.ant-layout-sider-collapsed .logo-text {
+  display: none;
+}
+
+.ant-layout-sider-collapsed .logo {
+  padding: 16px 8px;
+}
+
+/* Menu overrides pour le style */
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #1890ff !important;
+}
+
+.ant-menu-dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: #fff;
+  background-color: rgba(24, 144, 255, 0.15);
+} 

@@ -1,0 +1,41 @@
+/* Styles pour la page liste des utilisateurs */
+
+.users-page {
+  padding: 24px;
+}
+
+.users-header {
+  margin-bottom: 16px;
+}
+
+.users-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Styles pour la table */
+.users-table .ant-table-cell {
+  vertical-align: middle;
+}
+
+/* Styles pour les progress bars dans la table */
+.users-table .consumption-progress {
+  min-width: 100px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .users-page {
+    padding: 16px;
+  }
+  
+  .users-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .users-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+} 

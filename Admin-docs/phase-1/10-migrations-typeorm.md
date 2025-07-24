@@ -4,9 +4,11 @@
 Créer les scripts de migration pour mettre en place le schéma de BDD défini, en assurant la robustesse et la traçabilité des évolutions.
 
 ## Étapes actionnables
-- [ ] Écrire les scripts de migration pour chaque table/modification définie dans le schéma.
+- [ ] Creer les entities pour chaque table/modification définie dans le schéma.
+- [ ] Modifier si necessaire les entities pour chaque table/modification définie dans le schéma.
 - [ ] Ajouter les index, contraintes d'unicité, foreign keys, etc.
-- [ ] Tester les migrations sur une base vierge (création complète).
+- [ ] Generer les migrations avec la commande "npm run migration:generate -- ./src/database/migrations/NameDeLaMigration"
+- [ ] Verifier que le migration generer sont correct
 - [ ] Tester les migrations sur une base existante (migration incrémentale).
 - [ ] Documenter la procédure d'exécution et de rollback des migrations.
 
@@ -22,6 +24,7 @@ Créer les scripts de migration pour mettre en place le schéma de BDD défini, 
 ## Conseils
 - Versionner les scripts de migration.
 - Automatiser les tests de migration dans la CI/CD.
+- pour creer les migration tu peux utiliser "npm run migration:generate -- ./src/database/migrations/NameDeLaMigration". Ensuite tu verifie que la generation est bonne.
 
 ## Dépendances
 - Le schéma des tables doit être validé (voir tâche 9). 

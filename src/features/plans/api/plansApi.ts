@@ -42,7 +42,7 @@ export const plansApi = {
 
   // Synchroniser tous les plans avec Stripe
   syncAllPlans: async (dryRun: boolean = false): Promise<SyncResponse> => {
-    const response = await api.post('/admin/plans/sync', null, {
+    const response = await api.get('/admin/plans/actions/sync', {
       params: { dryRun: dryRun.toString() }
     });
     return response.data;

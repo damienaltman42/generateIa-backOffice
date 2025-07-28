@@ -49,6 +49,22 @@ export const useUserAuditLogs = (
   });
 };
 
+export const useUserResourcesStats = (
+  userId: string,
+  params?: {
+    dateFrom?: string;
+    dateTo?: string;
+  }
+) => {
+  return useQuery({
+    queryKey: ['user', userId, 'resources-stats', params],
+    queryFn: () => usersApi.getResourcesStats(userId, params),
+    enabled: !!userId,
+    staleTime: 30 * 1000, // 30 secondes - plus court car les stats peuvent changer souvent
+    refetchOnWindowFocus: true,
+  });
+};
+
 export const useUserResources = (
   userId: string,
   params?: {

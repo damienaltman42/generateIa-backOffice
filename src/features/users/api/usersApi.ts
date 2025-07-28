@@ -69,6 +69,19 @@ export const usersApi = {
     return response.data;
   },
 
+  getResourcesStats: async (
+    userId: string,
+    params?: {
+      dateFrom?: string;
+      dateTo?: string;
+    }
+  ) => {
+    const response = await api.get(`/admin/users/${userId}/resources/stats`, {
+      params,
+    });
+    return response.data;
+  },
+
   // Actions sur les utilisateurs
   updateRights: async (userId: string, data: UpdateUserRightsData): Promise<ActionResponse> => {
     const response = await api.patch(`/admin/users/${userId}/rights`, data);

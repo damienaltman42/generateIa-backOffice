@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Tabs, Table, Tag, Space, Button, Image, DatePicker, Select, Statistic, Row, Col } from 'antd';
+import { Card, Tabs, Table, Tag, Space, Button, Image, DatePicker, Select, Statistic, Row, Col, Tooltip } from 'antd';
 import {
   FileTextOutlined,
   ShareAltOutlined,
@@ -9,7 +9,7 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { useUserResources } from '../hooks/useUserDetail';
+import { useUserResources, useUserResourcesStats } from '../hooks/useUserDetail';
 
 const { RangePicker } = DatePicker;
 
@@ -33,8 +33,23 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
     dateTo: filters.dateRange?.[1]?.format('YYYY-MM-DD'),
   });
 
+  // Hook pour récupérer les statistiques sur la période sélectionnée
+  const { data: statsData, isLoading: statsLoading } = useUserResourcesStats(userId, {
+    dateFrom: filters.dateRange?.[0]?.format('YYYY-MM-DD'),
+    dateTo: filters.dateRange?.[1]?.format('YYYY-MM-DD'),
+  });
+
   const renderArticlesTable = () => {
     const columns = [
+      {
+        title: 'Image',
+        dataIndex: 'images',
+        key: 'images',
+        width: 120,
+        render: (images: [{ url: string }]) => (
+          (images && images[0]) ? <Image src={images[0].url} width={80} height={80} style={{ objectFit: 'cover' }} /> : "-"
+        ),
+      },
       {
         title: 'Titre',
         dataIndex: 'title',
@@ -48,6 +63,7 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
         key: 'status',
         width: 120,
         render: (status: string) => {
+          console.log('status', status);
           const statusConfig = {
             published: { color: 'success', label: 'Publié' },
             draft: { color: 'default', label: 'Brouillon' },
@@ -59,8 +75,8 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
       },
       {
         title: 'Date création',
-        dataIndex: 'created_at',
-        key: 'created_at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
         width: 150,
         render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
       },
@@ -98,37 +114,47 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
     const columns = [
       {
         title: 'Aperçu',
-        dataIndex: 'preview',
-        key: 'preview',
+        dataIndex: 'images',
+        key: 'images',
         width: 100,
-        render: (preview: string) => (
-          preview ? <Image src={preview} width={60} height={60} style={{ objectFit: 'cover' }} /> : '-'
+        render: (images: [{ url: string }]) => (
+          (images && images[0]) ? <Image src={images[0].url} width={60} height={60} style={{ objectFit: 'cover' }} /> : '-'
         ),
       },
       {
         title: 'Contenu',
-        dataIndex: 'content',
-        key: 'content',
+        dataIndex: 'metadata',
+        key: 'metadata',
         width: '40%',
-        ellipsis: true,
+        ellipsis: { showTitle: false },
+        render: (metadata: { content: string, articleId: string, articleTitle: string, description: string, postUrl: string, link: string }) => (
+          <Tooltip title={metadata.content || metadata.description || '-'}>
+            <div style={{ 
+              maxWidth: '100%', 
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
+              {metadata.content || metadata.description || '-'}
+            </div>
+          </Tooltip>
+        ),
       },
       {
         title: 'Plateformes',
-        dataIndex: 'platforms',
-        key: 'platforms',
+        dataIndex: 'metadata',
+        key: 'metadata',
         width: 200,
-        render: (platforms: string[]) => (
+        render: (metadata: { socialType: string, postType: string }) => (
           <Space size="small" wrap>
-            {platforms?.map(platform => (
-              <Tag key={platform} color="blue">{platform}</Tag>
-            ))}
+              <Tag key={metadata.socialType} color="blue">{metadata.socialType} ({metadata.postType})</Tag>
           </Space>
         ),
       },
       {
         title: 'Date',
-        dataIndex: 'created_at',
-        key: 'created_at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
         width: 150,
         render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
       },
@@ -165,11 +191,11 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
     const columns = [
       {
         title: 'Image',
-        dataIndex: 'url',
-        key: 'url',
+        dataIndex: 'metadata',
+        key: 'metadata',
         width: 120,
-        render: (url: string) => (
-          <Image src={url} width={80} height={80} style={{ objectFit: 'cover' }} />
+        render: (metadata: { url: string }) => (
+          <Image src={metadata.url} width={80} height={80} style={{ objectFit: 'cover' }} />
         ),
       },
       {
@@ -193,8 +219,8 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
       },
       {
         title: 'Date',
-        dataIndex: 'created_at',
-        key: 'created_at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
         width: 150,
         render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
       },
@@ -262,28 +288,28 @@ export const UserResourcesTab: React.FC<UserResourcesTabProps> = ({ userId }) =>
       {/* Statistiques */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card loading={statsLoading}>
             <Statistic
-              title="Total articles"
-              value={resources?.stats?.articles || 0}
+              title={`Articles ${filters.dateRange ? 'sur la période' : 'depuis le début'}`}
+              value={statsData?.stats?.articles || 0}
               prefix={<FileTextOutlined />}
             />
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card loading={statsLoading}>
             <Statistic
-              title="Total posts"
-              value={resources?.stats?.social_posts || 0}
+              title={`Posts sociaux ${filters.dateRange ? 'sur la période' : 'depuis le début'}`}
+              value={statsData?.stats?.social_posts || 0}
               prefix={<ShareAltOutlined />}
             />
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card loading={statsLoading}>
             <Statistic
-              title="Total images"
-              value={resources?.stats?.images || 0}
+              title={`Images ${filters.dateRange ? 'sur la période' : 'depuis le début'}`}
+              value={statsData?.stats?.images || 0}
               prefix={<PictureOutlined />}
             />
           </Card>

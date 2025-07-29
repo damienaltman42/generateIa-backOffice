@@ -103,6 +103,14 @@ export const UserTable: React.FC<UserTableProps> = ({
       render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
     },
     {
+      title: 'Dernière connexion',
+      dataIndex: 'lastLoginAt',
+      key: 'lastLoginAt',
+      sorter: true,
+      width: 150,
+      render: (date: string) => date ? dayjs(date).format('DD/MM/YYYY') : '-',
+    },
+    {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',

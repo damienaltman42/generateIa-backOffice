@@ -20,6 +20,7 @@ export enum SortField {
   ARTICLES_USED = 'articles_used',
   SOCIAL_POSTS_USED = 'social_posts_used',
   STORIES_USED = 'stories_used',
+  LAST_LOGIN_AT = 'lastLoginAt',
 }
 
 export enum SortOrder {

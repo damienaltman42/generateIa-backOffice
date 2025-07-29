@@ -106,6 +106,7 @@ export const UsersListPage: React.FC = () => {
           articles_used: SortField.ARTICLES_USED,
           social_posts_used: SortField.SOCIAL_POSTS_USED,
           stories_used: SortField.STORIES_USED,
+          lastLoginAt: SortField.LAST_LOGIN_AT,
         };
 
         const field = Array.isArray(sorter.field) ? sorter.field[0] : sorter.field;
